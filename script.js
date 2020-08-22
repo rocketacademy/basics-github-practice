@@ -1,6 +1,22 @@
 // Please declare functions and variables above where they are used.
+var jerrysPosition = 0;
+var tomsPosition = 0;
 
 var main = function (input) {
-  var myOutputValue = 'hello world';
+  var myOutputValue = 'Tom did not catch Jerry. ';
+  var jerrysNextPosition = getRandomNumFrom1To10();
+  jerrysPosition += jerrysNextPosition;
+  tomsPosition += parseInt(input);
+  if (jerrysPosition == tomsPosition) {
+    myOutputValue = 'Tom has caught Jerry! ';
+  }
+  myOutputValue += 'Total distance of Jerry = ' + jerrysPosition + ' Total distance of Tom = ' + tomsPosition;
   return myOutputValue;
+};
+
+var getRandomNumFrom1To10 = function () {
+  return 9;
+  var randomDecimal = Math.random() * 10;
+  var randomInteger = Math.floor(randomDecimal) + 1;
+  return randomInteger;
 };
