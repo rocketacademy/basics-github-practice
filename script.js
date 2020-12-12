@@ -25,9 +25,26 @@ var secretWord = function () {
   return chosenSecretWord; // this outputs either banana, chisel or faucet
 };
 
+// Score board
+var scoreBoard = 0;
+
 // Check if user guessed the secret word
 var guessCorrect = function (input) {
-  var correctAnswer = `Nope Try again! The secret word was ${chosenSecretWord}`;
+  var correctAnswer = '';
+  // wrong answer
+  if ((input != chosenSecretWord)) {
+    // ensure that score doesn't go below zero
+    if (scoreBoard <= 0) {
+      scoreBoard = 0;
+      correctAnswer = `Nope Try again! The secret word was ${chosenSecretWord}`;
+    }
+    // ensure that user has to guess correct answer twice in a row
+    if (scoreBoard > 0) {
+      correctAnswer = `Nope Try again! The secret word was ${chosenSecretWord}`;
+      // minus 1 point
+      scoreBoard -= 1;
+    }
+  }
   // correct answer 1
   if ((input == chosenSecretWord) && (chosenSecretWord == secretWordOne)) {
     correctAnswer = `Yes! The secret word was indeed ${secretWordOne}`;
@@ -48,9 +65,6 @@ var guessCorrect = function (input) {
   }
   return correctAnswer;
 };
-
-// Score board
-var scoreBoard = 0;
 
 // How many more correct guesses to win
 var guessesToWin = 2;
