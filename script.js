@@ -3,15 +3,41 @@ var secretWordOne = 'banana';
 var secretWordTwo = 'chisel';
 var secretWordThree = 'faucet';
 var chosenSecretWord = '';
+// make game counter
+var gameCounter = -1;
+// Score board
+var scoreBoard = 0;
 
 // Random number generator from 1 - 3 *Numbers correspond to chosen secret word
+// Ensure that randomNumber generated does not repeat
+var previousNum = '';
 var randomNumGenerator = function () {
+  // generate a random number from 1 - 3
   var randomNum = Math.floor(Math.random() * 3) + 1;
+  // if first game let the number stay
+  if (gameCounter == 0) {
+    // pass
+  }
+  // if not first game do the check
+  if (gameCounter > 0) {
+    // check if number is repeated if it is change the number
+    if ((randomNum == previousNum) && randomNum == 1) {
+      randomNum += 1;
+    }
+    if ((randomNum == previousNum) && randomNum == 2) {
+      randomNum += 1;
+    }
+    if ((randomNum == previousNum) && randomNum == 3) {
+      randomNum -= 1;
+    }
+  }
+  previousNum = randomNum;
   return randomNum;
 };
 
 // Get secret word
 var secretWord = function () {
+  // generate number
   var getNum = randomNumGenerator();
   if (getNum == 1) {
     chosenSecretWord = `${secretWordOne}`;
@@ -24,9 +50,6 @@ var secretWord = function () {
   }
   return chosenSecretWord; // this outputs either banana, chisel or faucet
 };
-
-// Score board
-var scoreBoard = 0;
 
 // Check if user guessed the secret word
 var guessCorrect = function (input) {
@@ -87,11 +110,17 @@ var howManyGuessesToWin = function () {
 // Main function
 var main = function (input) {
   var myOutputValue = '';
+  // gameCounter
+  gameCounter += 1;
   // generate secret word
   secretWord();
   // START GAME. Check if user guessed the secret word
   myOutputValue = guessCorrect(input) + '<br>' + howManyGuessesToWin();
   // TEST scoreboard
   console.log('THE Score Board ' + scoreBoard);
+  // TEST gameCounter
+  console.log(`Games played: ${gameCounter}`);
+  // TEST previousNum
+  console.log(`Previous Number: ${previousNum}`);
   return myOutputValue;
 };
