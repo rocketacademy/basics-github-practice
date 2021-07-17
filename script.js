@@ -25,13 +25,17 @@ var main = function (input) {
     numCorrectGuesses += 1;
   }
 
+  if (input != secretWord) {
+    numCorrectGuesses = 0;
+  }
+
+  if (numCorrectGuesses == winCondition) {
+    return "Congrats, you won after guessing the secret word correctly twice in a row.";
+  }
+
   var myOutputValue = `You guessed ${input}, the secret word is ${secretWord}, you have guessed the secret word correctly ${numCorrectGuesses} times and you need to guess the secret word correctly ${
     winCondition - numCorrectGuesses
   } more time(s) to win.`;
-
-  if (numCorrectGuesses == winCondition) {
-    return "Congrats, you won after guessing the secret word correctly twice in total.";
-  }
 
   return myOutputValue;
 };
