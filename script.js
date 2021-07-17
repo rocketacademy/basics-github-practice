@@ -1,5 +1,7 @@
 // Secret Word V3
 
+var testing = 1234
+
 /* Initialise variables for score, guesses, boolean of current, previous, one-before-last input,
 & an arrayto keep track of all guesses */
 var scoreCounter = 0;
