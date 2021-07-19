@@ -1,64 +1,46 @@
+var getDiceNumber = function () {
+  var diceNumber = Math.random() * 6;
+  var diceInteger = Math.ceil(diceNumber);
+  console.log(`dice roll = ${diceInteger}`);
+  return diceInteger;
+};
+
+var getWithinNumber = function () {
+  var withinNumber = Math.random() * 3;
+  var withinInteger = Math.ceil(withinNumber);
+
+  return withinInteger;
+};
+// i will make a game for each within number
+var playDiceWithinNumber = function (input, withinDiceNumber, rolledDiceNumber) {
+  var upperlimit = rolledDiceNumber + withinDiceNumber;
+  var lowerlimit = rolledDiceNumber - withinDiceNumber;
+  if (input <= upperlimit && input >= lowerlimit) {
+    wincount = wincount + 1;
+
+    var outputSentence = `YOU WON! you had to guess within ${withinDiceNumber} of ${rolledDiceNumber} AND u inputed ${input}`;
+    wincount = 0;
+    return outputSentence;
+  }
+  wincount = wincount + 1;
+  return `YOU LOSE! you had to guess within ${withinDiceNumber} of ${rolledDiceNumber} BUT u inputed ${input}`;
+};
+// At the beginning of the game and each time the player wins, the computer selects a random number from 1 to 3, which we call the "within number"
+var wincount = 0;
+
+var withinDiceNumber = 0;
 var main = function (input) {
-  console.log(`you say ${input}`);
-
-  var playStreakGame = playStreakOfX(input);
-  return playStreakGame;
-};
-//this gets the computer output
-var getComputerWord = function () {
-  var number = Math.random() * 3;
-  var integer = Math.ceil(number);
-  if (integer == 1) {
-    return `banana`;
+  console.log(`wincount = ${wincount}`);
+  console.log(`input = ${input}`);
+  if (wincount == 0) {
+    withinDiceNumber = getWithinNumber();
+    console.log(`within ${withinDiceNumber}`);
+    var rolledDiceNumber = getDiceNumber();
+    var playgame = playDiceWithinNumber(input, withinDiceNumber, rolledDiceNumber);
+    return playgame;
+  } else if (wincount != 0) {
+    var rolledDiceNumber = getDiceNumber();
+    var playgame = playDiceWithinNumber(input, withinDiceNumber, rolledDiceNumber);
+    return playgame;
   }
-  if (integer == 2) {
-    return `chisel`;
-  }
-  if (integer == 3) {
-    return `faucet`;
-  }
-};
-// this gets the streak needed for the round
-var getStreakNeeded = function () {
-  var streakNumber = Math.random() * 4;
-  var streakInteger = Math.ceil(streakNumber);
-  if (streakInteger == 1) {
-    return getStreakNeeded();
-  }
-  console.log(`streak needed = ${streakInteger}`);
-  return streakInteger;
-};
-var streakNeeded = 0;
-var playCount = 0;
-var correctCount = 0;
-var playStreakOfX = function (input) {
-  var computerWord = getComputerWord();
-  //first round will get the streak needed
-  if (playCount == 0) {
-    streakNeeded = getStreakNeeded();
-  }
-
-  console.log(`computer says ${computerWord}`);
-  if (input == computerWord) {
-    playCount = playCount + 1;
-    correctCount = correctCount + 1;
-    if (correctCount < streakNeeded) {
-      var output = `you have guessed correctly and have a streak count of ${correctCount}`;
-    } else if (correctCount == streakNeeded) {
-      var output = `you have guessed correctly again and have a steak count of ${correctCount}! YOU HAVE WON THE GAME!`;
-      correctCount = 0;
-      playCount = 0;
-    }
-  }
-
-  if (input != computerWord) {
-    playCount = playCount + 1;
-    if (correctCount != 0) {
-      correctCount = 0;
-      var output = ` you have guessed wrongly and have lost ur streak count!`;
-    } else if (correctCount == 0) {
-      var output = `you have guessed wrongly! pls try again `;
-    }
-  }
-  return output;
 };
