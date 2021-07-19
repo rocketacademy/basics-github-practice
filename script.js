@@ -1,4 +1,6 @@
 var getDiceNumber = function () {
+  return 1;
+
   var diceNumber = Math.random() * 6;
   var diceInteger = Math.ceil(diceNumber);
   console.log(`dice roll = ${diceInteger}`);
@@ -12,18 +14,20 @@ var getWithinNumber = function () {
   return withinInteger;
 };
 // i will make a game for each within number
-var playDiceWithinNumber = function (input, withinDiceNumber, rolledDiceNumber) {
-  var upperlimit = rolledDiceNumber + withinDiceNumber;
-  var lowerlimit = rolledDiceNumber - withinDiceNumber;
-  if (input <= upperlimit && input >= lowerlimit) {
+var playDiceWithinNumber = function (input, withinDiceNumber, dice1, dice2) {
+  var upperlimit1 = dice1 + withinDiceNumber;
+  var lowerlimit1 = dice1 - withinDiceNumber;
+  var lowerlimit2 = dice2 - withinDiceNumber;
+  var upperlimit2 = dice2 + withinDiceNumber;
+  if ((input <= upperlimit1 && input >= lowerlimit1) || (input <= upperlimit2 && input >= lowerlimit2)) {
     wincount = wincount + 1;
 
-    var outputSentence = `YOU WON! you had to guess within ${withinDiceNumber} of ${rolledDiceNumber} AND u inputed ${input}`;
+    var outputSentence = `YOU WON! DICE 1 = ${dice1}. DICE 2 = ${dice2}. WITHIN NUMBER = ${withinDiceNumber}. INPUT = ${input}`;
     wincount = 0;
     return outputSentence;
   }
   wincount = wincount + 1;
-  return `YOU LOSE! you had to guess within ${withinDiceNumber} of ${rolledDiceNumber} BUT u inputed ${input}`;
+  return `YOU LOSE! DICE 1 = ${dice1}. DICE 2 = ${dice2}. WITHIN NUMBER = ${withinDiceNumber}. INPUT = ${input}`;
 };
 // At the beginning of the game and each time the player wins, the computer selects a random number from 1 to 3, which we call the "within number"
 var wincount = 0;
@@ -35,12 +39,14 @@ var main = function (input) {
   if (wincount == 0) {
     withinDiceNumber = getWithinNumber();
     console.log(`within ${withinDiceNumber}`);
-    var rolledDiceNumber = getDiceNumber();
-    var playgame = playDiceWithinNumber(input, withinDiceNumber, rolledDiceNumber);
+    var dice1 = getDiceNumber();
+    var dice2 = getDiceNumber();
+    var playgame = playDiceWithinNumber(input, withinDiceNumber, dice1, dice2);
     return playgame;
   } else if (wincount != 0) {
-    var rolledDiceNumber = getDiceNumber();
-    var playgame = playDiceWithinNumber(input, withinDiceNumber, rolledDiceNumber);
+    var dice1 = getDiceNumber();
+    var dice2 = getDiceNumber();
+    var playgame = playDiceWithinNumber(input, withinDiceNumber, dice1, dice2);
     return playgame;
   }
 };
