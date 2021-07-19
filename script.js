@@ -25,6 +25,9 @@ var main = function (userGuess) {
   ) {
     return userGuess + " error, plese try again";
   }
+  if (numCorrectGuessNeededToWin == 0) {
+    return output + " you win!, refresh and play again! ";
+  }
 
   if (userGuess == secretWord) {
     numCorrectGuess += 1;
@@ -41,11 +44,6 @@ var main = function (userGuess) {
       output + "you are wrong " + numCorrectGuessNeededToWin + " until you win."
     );
   }
-  if (numCorrectGuess >= numCorrectGuessNeededToWin) {
-    return output + " you win!";
-  }
-
-  return output + " you still need " + numCorrectGuessNeededToWin;
 };
 
 function generateRandomInteger() {
