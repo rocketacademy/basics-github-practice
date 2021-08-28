@@ -38,6 +38,5 @@ var main = function (input) {
 
 //generate random number
 var generateRandomNumber = function () {
-  return 1;
   return (randomNumber = Math.ceil(Math.random() * 3));
 };
