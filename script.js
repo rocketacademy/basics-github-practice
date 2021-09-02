@@ -16,7 +16,10 @@ var guessOptions = function () {
 };
 var isGuessCorrect = function (guess, guessed) {
   if (guess == guessed) {
-    winCount = winCount + 1;
+    winCount += 1;
+  }
+  if (guess != guessed) {
+    winCount = 0;
   }
 };
 
@@ -25,6 +28,9 @@ var main = function (input) {
   console.log(word);
   console.log(input);
   isGuessCorrect(input, word);
+  if (winCount > 2) {
+    winCount -= 1;
+  }
   console.log(winCount);
   var myOutputValue =
     "The secret word is " +
