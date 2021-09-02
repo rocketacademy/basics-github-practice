@@ -6,7 +6,7 @@ var winCount = 0;
 var guessOptions = function () {
   var randomDecimal = Math.random() * 3;
   var randomInteger = Math.floor(randomDecimal);
-  return "banana";
+
   if (randomInteger == 0) {
     return "banana";
   } else if (randomInteger == 1) {
@@ -14,6 +14,17 @@ var guessOptions = function () {
   } else if (randomInteger == 2) {
     return "faucet";
   }
+};
+
+var prevWord = "whatever";
+
+var noRepeatGuessOptions = function () {
+  word1 = prevWord;
+  while (word1 == prevWord) {
+    word1 = guessOptions();
+  }
+  prevWord = word1;
+  return word1;
 };
 
 var correctsToWin = function () {
@@ -30,8 +41,6 @@ var correctsToWin = function () {
 
 var staticCorrectsToWin = 1;
 
-var resetScore = function () {};
-
 var isGuessCorrect = function (guess, guessed) {
   if (guess == guessed) {
     winCount += 1;
@@ -42,7 +51,7 @@ var isGuessCorrect = function (guess, guessed) {
 };
 
 var main = function (input) {
-  var word = guessOptions();
+  var word = noRepeatGuessOptions();
   console.log("word");
   console.log(word);
   console.log("input");
