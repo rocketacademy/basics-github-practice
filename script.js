@@ -1,6 +1,3 @@
-var BANANA = "banana";
-var CHISEL = "chisel";
-var FAUCET = "faucet";
 var winCount = 0;
 
 var guessOptions = function () {
@@ -50,7 +47,7 @@ var isGuessCorrect = function (guess, guessed) {
   }
 };
 
-var main = function (input) {
+var secretWord = function (input) {
   var word = noRepeatGuessOptions();
   console.log("word");
   console.log(word);
@@ -86,6 +83,64 @@ var main = function (input) {
       " times correctly. You win!";
     staticCorrectsToWin = correctsToWin();
     winCount = 0;
+  }
+  return myOutputValue;
+};
+
+// start code for dice-within
+
+var rollDice = function () {
+  var diceNumber = Math.floor(Math.random() * 6) + 1;
+  return diceNumber;
+};
+
+var withinNumber = function () {
+  var randomDecimal = Math.random() * 3;
+  var randomInteger = Math.floor(randomDecimal) + 1;
+  return randomInteger;
+};
+
+var prevWithinNumber = 0;
+
+var checkIfWin = function (guess, roll, within) {
+  if (guess <= roll + within && guess >= roll - within) {
+    return true;
+  }
+  return false;
+};
+
+var main = function (input) {
+  var diceRoll = rollDice();
+  // No repeat Within number
+  var inNumber1 = function () {
+    if (prevWithinNumber == 0) {
+      return withinNumber();
+    }
+    return prevWithinNumber;
+  };
+  var inNumber = inNumber1();
+  var checkWin = checkIfWin(input, diceRoll, inNumber);
+  console.log("input");
+  console.log(input);
+  console.log("diceRoll");
+  console.log(diceRoll);
+  console.log("inNumber");
+  console.log(inNumber);
+  console.log("checkWin");
+  console.log(checkWin);
+
+  var myOutputValue =
+    "You lost. You guessed " + input + ". You rolled " + diceRoll;
+  if (checkWin == true) {
+    myOutputValue =
+      "You won. You guessed " +
+      input +
+      ". You rolled " +
+      diceRoll +
+      ". Your guess is within the buffer of " +
+      inNumber +
+      ".";
+    prevWithinNumber = withinNumber();
   }
   return myOutputValue;
 };
