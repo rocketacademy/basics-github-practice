@@ -110,7 +110,8 @@ var checkIfWin = function (guess, roll, within) {
 };
 
 var main = function (input) {
-  var diceRoll = rollDice();
+  var diceRoll1 = rollDice();
+  var diceRoll2 = rollDice();
   // No repeat Within number
   var inNumber1 = function () {
     if (prevWithinNumber == 0) {
@@ -119,24 +120,34 @@ var main = function (input) {
     return prevWithinNumber;
   };
   var inNumber = inNumber1();
-  var checkWin = checkIfWin(input, diceRoll, inNumber);
+  var checkWin1 = checkIfWin(input, diceRoll1, inNumber);
+  var checkWin2 = checkIfWin(input, diceRoll2, inNumber);
   console.log("input");
   console.log(input);
   console.log("diceRoll");
-  console.log(diceRoll);
+  console.log(diceRoll1);
+  console.log(diceRoll2);
   console.log("inNumber");
   console.log(inNumber);
   console.log("checkWin");
-  console.log(checkWin);
+  console.log(checkWin1);
+  console.log(checkWin2);
 
   var myOutputValue =
-    "You lost. You guessed " + input + ". You rolled " + diceRoll;
-  if (checkWin == true) {
+    "You lost. You guessed " +
+    input +
+    ". You rolled " +
+    diceRoll1 +
+    " and " +
+    diceRoll2;
+  if (checkWin1 == true || checkWin2 == true) {
     myOutputValue =
       "You won. You guessed " +
       input +
       ". You rolled " +
-      diceRoll +
+      diceRoll1 +
+      " and " +
+      diceRoll2 +
       ". Your guess is within the buffer of " +
       inNumber +
       ".";
