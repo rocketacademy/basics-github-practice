@@ -87,12 +87,19 @@ var secretWord = function (input) {
   return myOutputValue;
 };
 
-// start code for dice-within
+// start code for 4D
 
 var rollDice = function () {
   var diceNumber = Math.floor(Math.random() * 6) + 1;
   return diceNumber;
 };
+
+var roll4D = function () {
+  var fourNumber = Math.floor(Math.random() * 10000);
+  return fourNumber;
+};
+
+var start4D = false;
 
 var withinNumber = function () {
   var randomDecimal = Math.random() * 3;
@@ -109,9 +116,13 @@ var checkIfWin = function (guess, roll, within) {
   return false;
 };
 
+var score = 0;
+
 var main = function (input) {
   var diceRoll1 = rollDice();
   var diceRoll2 = rollDice();
+  var number4D = roll4D();
+
   // No repeat Within number
   var inNumber1 = function () {
     if (prevWithinNumber == 0) {
@@ -132,15 +143,12 @@ var main = function (input) {
   console.log("checkWin");
   console.log(checkWin1);
   console.log(checkWin2);
+  console.log("start4D");
+  console.log(start4D);
 
-  var myOutputValue =
-    "You lost. You guessed " +
-    input +
-    ". You rolled " +
-    diceRoll1 +
-    " and " +
-    diceRoll2;
-  if (checkWin1 == true || checkWin2 == true) {
+  var myOutputValue;
+  if (start4D == false && (checkWin1 == true || checkWin2 == true)) {
+    console.log("Executed win");
     myOutputValue =
       "You won. You guessed " +
       input +
@@ -152,6 +160,57 @@ var main = function (input) {
       inNumber +
       ".";
     prevWithinNumber = withinNumber();
+    if (score < 2) {
+      score += 1;
+      if (score > 1) {
+        start4D = true;
+        myOutputValue =
+          "You won. You guessed " +
+          input +
+          ". You rolled " +
+          diceRoll1 +
+          " and " +
+          diceRoll2 +
+          ". Your guess is within the buffer of " +
+          inNumber +
+          ". Now you'll enter the 4D round!";
+      }
+    } else if (score == 2) {
+      score = 1;
+    }
+
+    console.log("score");
+    console.log(score);
+  } else if (start4D == true && input == number4D) {
+    start4D = false;
+    score = 0;
+    myOutputValue =
+      "You won. You guessed " +
+      input +
+      ". Your 4D roll is " +
+      number4D +
+      ". Now you'll return to normal dice round!";
+  } else if (start4D == true && input != number4D) {
+    start4D = false;
+    score = 0;
+    myOutputValue =
+      "You lost. You guessed " +
+      input +
+      ". Your 4D roll is " +
+      number4D +
+      ". Now you'll return to normal dice round!";
+  } else {
+    score = 0;
+    console.log("score");
+    console.log(score);
+    myOutputValue =
+      "You lost. You guessed " +
+      input +
+      ". You rolled " +
+      diceRoll1 +
+      " and " +
+      diceRoll2;
   }
+
   return myOutputValue;
 };
