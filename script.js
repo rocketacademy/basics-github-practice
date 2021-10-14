@@ -14,7 +14,7 @@ var main = function (input) {
     input.toLowerCase() == randomSecretWord && //player is only correct guess when the input is the same as computer's secret choice.
     input.toLowerCase() == "banana"
   ) {
-    scoreBanana = scoreBanana + 1; // always fixing the score at one for each correct word means the score don't increase if player uses back the same word.
+    scoreBanana = 1; // always fixing the score at one for each correct word means the score don't increase if player uses back the same word.
   }
   console.log("** ScoreBanana **");
   console.log(scoreBanana);
@@ -22,7 +22,7 @@ var main = function (input) {
     input.toLowerCase() == randomSecretWord &&
     input.toLowerCase() == "chisel"
   ) {
-    scoreChisel = scoreChisel + 1;
+    scoreChisel = 1;
   }
   console.log("** scoreChisel **");
   console.log(scoreChisel);
@@ -30,7 +30,7 @@ var main = function (input) {
     input.toLowerCase() == randomSecretWord &&
     input.toLowerCase() == "faucet"
   ) {
-    scoreFaucet = scoreFaucet + 1;
+    scoreFaucet = 1;
   }
   console.log("** scoreFaucet **");
   console.log(scoreFaucet);
