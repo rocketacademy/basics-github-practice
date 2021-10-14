@@ -1,1 +1,6 @@
-# Software Engineering 101 - Intro to Coding
+1. git clone *link*
+2. cd into file
+3. make changes, git add ...
+4. git commit -m ...
+5. git push
+6. make pull req
