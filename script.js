@@ -96,7 +96,7 @@ var readSecretWordNmbr = function (secretWordIndex) {
   if (secretWordIndex == 3) {
     secretWordString = "faucet";
   }
-  return "chisel";
+  return secretWordString; // amend to 1 string input to test.
 };
 
 var nmbrSuffix = function (nTimesNeeded) {
