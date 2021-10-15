@@ -4,17 +4,34 @@ var scoreFaucet = 0;
 var gameNumber = 0;
 var main = function (input) {
   gameNumber = gameNumber + 1;
-  console.log("### GAME NUMBER ###");
+  console.log("##### GAME NUMBER #####");
   console.log(gameNumber);
+
   var randomSecretWord = readSecretWordNmbr(randomNumber());
   console.log("randomSecretWord = ");
   console.log(randomSecretWord);
 
+  /*   //======================================
+  // INPUT CONTROL FLOW TEST BLOC;
+  if (gameNumber == 2) {
+    randomSecretWord = "banana";
+  }
+  if (gameNumber == 3) {
+    randomSecretWord = "chisel";
+  }
+  if (gameNumber == 4) {
+    randomSecretWord = "faucet";
+  }
+  if (gameNumber == 6) {
+    randomSecretWord = "faucet";
+  }
+  //====================================== */
+
   if (
-    input.toLowerCase() == randomSecretWord && //player is only correct guess when the input is the same as computer's secret choice.
+    input.toLowerCase() == randomSecretWord &&
     input.toLowerCase() == "banana"
   ) {
-    scoreBanana = 1; // always fixing the score at one for each correct word means the score don't increase if player uses back the same word.
+    scoreBanana = scoreBanana + 1;
   }
   console.log("** ScoreBanana **");
   console.log(scoreBanana);
@@ -22,7 +39,7 @@ var main = function (input) {
     input.toLowerCase() == randomSecretWord &&
     input.toLowerCase() == "chisel"
   ) {
-    scoreChisel = 1;
+    scoreChisel = scoreChisel + 1;
   }
   console.log("** scoreChisel **");
   console.log(scoreChisel);
@@ -30,33 +47,43 @@ var main = function (input) {
     input.toLowerCase() == randomSecretWord &&
     input.toLowerCase() == "faucet"
   ) {
-    scoreFaucet = 1;
+    scoreFaucet = scoreFaucet + 1;
   }
   console.log("** scoreFaucet **");
   console.log(scoreFaucet);
 
   var sumScore = scoreBanana + scoreChisel + scoreFaucet;
-  var scoreDiff = 3 - sumScore;
+  var scoreDiff = 2 - sumScore;
 
-  var myOutputValue = `Wrong guess<br> Your guess was ${input}.<br> Secret Word: ${randomSecretWord}.<br> You need ${scoreDiff} more correct guesses to win. `;
-  var correctGuess = `Correct guess<br> Your guess was ${input}.<br> Secret Word: ${randomSecretWord}.<br> You need ${scoreDiff} more correct guesses to win. `;
-  var win = `You WIN! <br> Your guess was ${input}.<br> Secret Word: ${randomSecretWord}.<br> `;
+  //need message for when the person doesn't win 2wice in a row.
+  var TwoWrongGuesses = `Wrong guess<br> Your guess was ${input}.<br> Secret Word: ${randomSecretWord}.<br> You need ${scoreDiff}  correct guesses in a row to win. Try again.  `;
 
-  if (input.toLowerCase() == randomSecretWord) {
-    myOutputValue = correctGuess;
+  var myOutputValue = TwoWrongGuesses;
+
+  var correct1stGuess = `Correct guess... <br><br> Your guess was ${input}.<br> Secret Word: ${randomSecretWord}.<br><br>  You need ${scoreDiff} more correct guess to win. `;
+
+  var correct2wiceInArow = ` YOU WIN!<br><br>You have guessed the secret word twice in a roll! <br><br> Your guess for the 2nd word was ${input}.<br> Secret Word: ${randomSecretWord}.<br> `;
+
+  var gameOver = `You have already beaten the game in this round. <br><br>Please refresh the webpage to restart the game. `;
+
+  if (input.toLowerCase() == randomSecretWord && sumScore == 1) {
+    myOutputValue = correct1stGuess;
   }
 
-  if (sumScore >= 2) {
-    myOutputValue = win;
+  if (sumScore == 2 && input.toLowerCase() == randomSecretWord) {
+    myOutputValue = correct2wiceInArow;
   }
 
+  if (
+    (sumScore > 2 && input.toLowerCase() == randomSecretWord) ||
+    (sumScore >= 2 && input.toLowerCase() != randomSecretWord)
+  ) {
+    myOutputValue = gameOver;
+  }
   return myOutputValue;
 };
 
-var win = "You win";
-
 // TO KEEP SCORE OF THE CORRECT WORD
-
 var randomNumber = function () {
   var randomDecimal = Math.random() * 3; // Math.random() --> 0 --- <1  0.1 , 0.2121241, 0.999999999999 float 2.09999
   var randomInteger = Math.floor(randomDecimal); //0,1,2
