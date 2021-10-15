@@ -1,85 +1,79 @@
-var scoreBanana = 0;
-var scoreChisel = 0;
-var scoreFaucet = 0;
+var random2to4 = function () {
+  var randomDecimal = Math.random() * 3; // Math.random() --> 0 --- <1  0.1 , 0.2121241, 0.999999999999 float 2.09999
+  var randomInteger = Math.floor(randomDecimal); //0,1,2
+  return randomInteger + 2; // returns 2,3, or 4.
+};
+
 var gameNumber = 0;
+var nTimesNeeded = random2to4(); //N times needed for winning--> this starts first.
+var randomNtimesNeeded = "not yet activated"; //2nd: this is for count when player wins all N times. can't start this definition anywhere locally in the main function.
+var sumScore = 0;
+console.log("===GLOBAL nTimesNeeded to 1st ROUND===");
+console.log(nTimesNeeded);
+
 var main = function (input) {
   gameNumber = gameNumber + 1;
   console.log("##### GAME NUMBER #####");
   console.log(gameNumber);
+  console.log("===LOCAL nTimesNeeded to Win CURRENT ROUND ===");
+  console.log(nTimesNeeded);
 
   var randomSecretWord = readSecretWordNmbr(randomNumber());
   console.log("randomSecretWord = ");
   console.log(randomSecretWord);
 
-  /*   //======================================
-  // INPUT CONTROL FLOW TEST BLOC;
-  if (gameNumber == 2) {
-    randomSecretWord = "banana";
+  if (
+    (input.toLowerCase() == randomSecretWord &&
+      input.toLowerCase() == "banana") ||
+    (input.toLowerCase() == randomSecretWord &&
+      input.toLowerCase() == "chisel") ||
+    (input.toLowerCase() == randomSecretWord && input.toLowerCase() == "faucet")
+  ) {
+    sumScore = sumScore + 1;
   }
-  if (gameNumber == 3) {
-    randomSecretWord = "chisel";
-  }
-  if (gameNumber == 4) {
-    randomSecretWord = "faucet";
-  }
-  if (gameNumber == 6) {
-    randomSecretWord = "faucet";
-  }
-  //====================================== */
 
-  if (
-    input.toLowerCase() == randomSecretWord &&
-    input.toLowerCase() == "banana"
-  ) {
-    scoreBanana = scoreBanana + 1;
-  }
-  console.log("** ScoreBanana **");
-  console.log(scoreBanana);
-  if (
-    input.toLowerCase() == randomSecretWord &&
-    input.toLowerCase() == "chisel"
-  ) {
-    scoreChisel = scoreChisel + 1;
-  }
-  console.log("** scoreChisel **");
-  console.log(scoreChisel);
-  if (
-    input.toLowerCase() == randomSecretWord &&
-    input.toLowerCase() == "faucet"
-  ) {
-    scoreFaucet = scoreFaucet + 1;
-  }
-  console.log("** scoreFaucet **");
-  console.log(scoreFaucet);
-
-  var sumScore = scoreBanana + scoreChisel + scoreFaucet;
-  var scoreDiff = 2 - sumScore;
+  var scoreDiff = nTimesNeeded - sumScore; // This tells the player how many more correct guesses needed to win current round.
+  var myOutputValue = "";
 
   //need message for when the person doesn't win 2wice in a row.
-  var TwoWrongGuesses = `Wrong guess<br> Your guess was ${input}.<br> Secret Word: ${randomSecretWord}.<br> You need ${scoreDiff}  correct guesses in a row to win. Try again.  `;
+  var wrongGuess = `Your guess was ${input}.<br><br> Secret Word: ${randomSecretWord}.<br><br> You need ${nTimesNeeded}  correct guess/guesses in a row to win. Try again. `;
 
-  var myOutputValue = TwoWrongGuesses;
+  var correctGuess = `Correct guess... <br><br> Your guess was ${input}.<br> Secret Word: ${randomSecretWord}.<br><br>  You need ${scoreDiff} more correct guess/guesses to win. `;
 
-  var correct1stGuess = `Correct guess... <br><br> Your guess was ${input}.<br> Secret Word: ${randomSecretWord}.<br><br>  You need ${scoreDiff} more correct guess to win. `;
+  if (input.toLowerCase() == randomSecretWord && sumScore == nTimesNeeded) {
+    myOutputValue = outputForWin;
+    randomNtimesNeeded = random2to4();
+  }
+  console.log("-----> randomNtimesNeeded ------>");
+  console.log(randomNtimesNeeded);
 
-  var correct2wiceInArow = ` YOU WIN!<br><br>You have guessed the secret word twice in a roll! <br><br> Your guess for the 2nd word was ${input}.<br> Secret Word: ${randomSecretWord}.<br> `;
+  var outputForWin = ` YOU WIN!<br><br>You have guessed the secret word correctly ${nTimesNeeded} times in a roll! <br><br> Your  ${nmbrSuffix(
+    nTimesNeeded
+  )} guess was ${input}.<br> Secret Word: ${randomSecretWord}.<br><br>In the next round, you will need to make <br> ${randomNtimesNeeded} correct guesses in a row`;
 
-  var gameOver = `You have already beaten the game in this round. <br><br>Please refresh the webpage to restart the game. `;
-
-  if (input.toLowerCase() == randomSecretWord && sumScore == 1) {
-    myOutputValue = correct1stGuess;
+  if (input.toLowerCase() != randomSecretWord) {
+    myOutputValue = wrongGuess;
+    sumScore = 0;
   }
 
-  if (sumScore == 2 && input.toLowerCase() == randomSecretWord) {
-    myOutputValue = correct2wiceInArow;
+  if (input.toLowerCase() == randomSecretWord && sumScore < nTimesNeeded) {
+    myOutputValue = correctGuess; //because sumScore and nTimesNeeded are tied to scoreDiff, I added an extra condition for better control, such that the output is correct to the exact game situation before winning after 1st correct guess.
   }
 
-  if (
-    (sumScore > 2 && input.toLowerCase() == randomSecretWord) ||
-    (sumScore >= 2 && input.toLowerCase() != randomSecretWord)
-  ) {
-    myOutputValue = gameOver;
+  if (input.toLowerCase() == randomSecretWord && sumScore == nTimesNeeded) {
+    nTimesNeeded = randomNtimesNeeded; //NEXT ROUND'S N TIMES TRANSFERED TO 'nTimesNeeded'
+    myOutputValue = outputForWin;
+    sumScore = 0;
   }
+  console.log(">>>>>> scoreDiff = nTimesNeeded - sumScore");
+  console.log(scoreDiff);
+
+  console.log(">>>>>> sumScore END of this guess= ");
+  console.log(sumScore);
+
+  console.log("nTimesNeeded to WIN CURRENT / NEXT ROUND ===");
+  console.log(nTimesNeeded);
+
   return myOutputValue;
 };
 
@@ -102,5 +96,18 @@ var readSecretWordNmbr = function (secretWordIndex) {
   if (secretWordIndex == 3) {
     secretWordString = "faucet";
   }
-  return secretWordString;
+  return "chisel";
+};
+
+var nmbrSuffix = function (nTimesNeeded) {
+  if (nTimesNeeded == 2) {
+    stNdThSuffix = "2nd";
+  }
+  if (nTimesNeeded == 3) {
+    stNdThSuffix = "3rd";
+  }
+  if (nTimesNeeded == 4) {
+    stNdThSuffix = "4th";
+  }
+  return stNdThSuffix;
 };
