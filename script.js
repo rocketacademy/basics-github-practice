@@ -35,6 +35,7 @@ var main = function (input) {
 
   // If user guesses incorrect
   if (input != computerTurn) {
+    winRecord = 0;
     myOutputValue =
       "You played " +
       input +
@@ -58,7 +59,7 @@ var main = function (input) {
       input +
       " and the computer played " +
       computerTurn +
-      " so you win because your winRecord is " +
+      " so you win because your win record is " +
       winRecord;
     // Return output.
     console.log("you played ", input, " and computer played ", computerTurn);
@@ -74,7 +75,7 @@ var main = function (input) {
       input +
       " and the computer played " +
       computerTurn +
-      " so you need " +
+      " so you win and you need " +
       (2 - winRecord) +
       " more correct guess to win";
     // Return output.
