@@ -1,7 +1,21 @@
+var rollDice = function () {
+  // Generate a decimal from 0 through 3, inclusive of 0 but not 1
+  var randomDecimal = Math.random() * 3;
+  // Remove the decimal with the floor operation.
+  // This will be an integer from 0 to 2 inclusive.
+  var randomInteger = Math.floor(randomDecimal);
+  return randomInteger;
+};
+
 var winRecord = 0;
+// Generate a random dice number for required guesses in row
+var guessesInRow = rollDice() + 2;
+
 var main = function (input) {
-  // Generate a random dice number
+  // Generate a random dice number for roll
   var randomDiceNumber = rollDice();
+  console.log("number generated for computer play: ", randomDiceNumber);
+  console.log("guesses in a row required: ", guessesInRow);
   // Assign a play to each dice number
   if (randomDiceNumber == 0) {
     var computerTurn = "banana";
@@ -21,7 +35,7 @@ var main = function (input) {
     var computerTurn = "faucet";
   }
 
-  // Assign an outcome based on each input
+  // Assign an output based on each input
   // Input Validation
   if (input != "chiesel" && input != "banana" && input != "faucet") {
     myOutputValue =
@@ -35,7 +49,6 @@ var main = function (input) {
 
   // If user guesses incorrect
   if (input != computerTurn) {
-    winRecord = 0;
     myOutputValue =
       "You played " +
       input +
@@ -44,15 +57,15 @@ var main = function (input) {
       " so you lose and your win record is " +
       winRecord +
       " which means you need " +
-      (2 - winRecord) +
+      (guessesInRow - winRecord) +
       " more correct guess to win";
     // Return output.
     console.log("you played ", input, " and computer played ", computerTurn);
     return myOutputValue;
   }
 
-  // If user guesses correctly twice
-  if (input == computerTurn && winRecord == 1) {
+  // If user guesses correctly the required times
+  if (input == computerTurn && winRecord == guessesInRow - 1) {
     winRecord = winRecord + 1;
     myOutputValue =
       "You played " +
@@ -63,12 +76,14 @@ var main = function (input) {
       winRecord;
     // Return output.
     console.log("you played ", input, " and computer played ", computerTurn);
-    winRecord = winRecord - 2;
+    // Reset win record and number of guesses required
+    winRecord = 0;
+    guessesInRow = rollDice() + 2;
     return myOutputValue;
   }
 
   // If user guesses correctly once
-  if (input == computerTurn && winRecord == 0) {
+  if (input == computerTurn && winRecord < guessesInRow) {
     winRecord = winRecord + 1;
     myOutputValue =
       "You played " +
@@ -76,20 +91,10 @@ var main = function (input) {
       " and the computer played " +
       computerTurn +
       " so you win and you need " +
-      (2 - winRecord) +
+      (guessesInRow - winRecord) +
       " more correct guess to win";
     // Return output.
     console.log("you played ", input, " and computer played ", computerTurn);
     return myOutputValue;
   }
-};
-
-var rollDice = function () {
-  // Generate a decimal from 0 through 3, inclusive of 0
-  var randomDecimal = Math.random() * 3;
-  // Remove the decimal with the floor operation.
-  // This will be an integer from 0 to 2 inclusive.
-  var randomInteger = Math.floor(randomDecimal);
-  console.log("dice rolls: ", randomInteger);
-  return randomInteger;
 };
