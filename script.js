@@ -5,7 +5,10 @@ var main = function (input) {
   var SecretWord = chooseSecretWord();
   console.log("selecting SecretWord");
   console.log(SecretWord);
-  var myOutputValue = "You selected " + input + ". You guessed incorrectly.";
+  var myOutputValue =
+    "You selected '" +
+    input +
+    "' which is not the secret word. Please try again.";
 
   //note that the sequence of the if functions matter as it determines the statement first
   if (input == SecretWord && CorrectGuessCounter == 1) {
